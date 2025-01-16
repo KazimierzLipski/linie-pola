@@ -97,10 +97,12 @@ const FieldLinePhysics: React.FC = () => {
     visible: boolean;
     x: number;
     y: number;
-    selected: {
-      id: number;
-      type: "charge" | "object";
-    } | undefined
+    selected:
+      | {
+          id: number;
+          type: "charge" | "object";
+        }
+      | undefined;
   }>({ visible: false, x: 0, y: 0, selected: undefined });
 
   // const [vectorArrayState, setVectorArrayState] = useState<Vector[]>([]);
@@ -336,11 +338,9 @@ const FieldLinePhysics: React.FC = () => {
       visible: true,
       x: event.clientX,
       y: event.clientY,
-      selected: {id: objectIndex ?? 0, type: "object"},
+      selected: { id: objectIndex ?? 0, type: "object" },
     });
-    if (objectIndex !== undefined) {
-      return;
-    }
+
     const chargeIndex = charges?.findIndex(
       (charge) => Math.hypot(charge.x - x, charge.y - y) < 10
     );
@@ -349,20 +349,21 @@ const FieldLinePhysics: React.FC = () => {
       visible: true,
       x: event.clientX,
       y: event.clientY,
-      selected: {id: chargeIndex ?? 0, type: "charge"},
+      selected: { id: chargeIndex ?? 0, type: "charge" },
     });
   };
 
   const handleDeleteCharge = () => {
     if (contextMenu.selected !== undefined) {
+      console.log(contextMenu.selected);
       if (contextMenu.selected.type === "charge") {
-      setCharges((prevCharges) => {
-        if (prevCharges == undefined) return prevCharges;
-        return prevCharges.filter(
-          (_, index) => index !== contextMenu.selected?.id
-        );
-      });
-      setContextMenu({ visible: false, x: 0, y: 0, selected: undefined });
+        setCharges((prevCharges) => {
+          if (prevCharges == undefined) return prevCharges;
+          return prevCharges.filter(
+            (_, index) => index !== contextMenu.selected?.id
+          );
+        });
+        setContextMenu({ visible: false, x: 0, y: 0, selected: undefined });
       } else if (contextMenu.selected.type === "object") {
         setObjects((prevObjects) => {
           if (prevObjects == undefined) return prevObjects;
@@ -445,10 +446,8 @@ const FieldLinePhysics: React.FC = () => {
       });
 
       return { visible: false, x: 0, y: 0, selected: undefined };
-    }
-    );
-  }
-
+    });
+  };
 
   return (
     <div className="flex flex-row">
