@@ -345,12 +345,14 @@ const FieldLinePhysics: React.FC = () => {
       (charge) => Math.hypot(charge.x - x, charge.y - y) < 10
     );
 
-    setContextMenu({
-      visible: true,
-      x: event.clientX,
-      y: event.clientY,
-      selected: { id: chargeIndex ?? 0, type: "charge" },
-    });
+    if (chargeIndex !== -1) {
+      setContextMenu({
+        visible: true,
+        x: event.clientX,
+        y: event.clientY,
+        selected: { id: chargeIndex ?? 0, type: "charge" },
+      });
+    }
   };
 
   const handleDeleteCharge = () => {
